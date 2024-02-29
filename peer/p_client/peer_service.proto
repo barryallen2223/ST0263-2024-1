@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service PeerService {
+    rpc DownloadFile (FileRequest) returns (DownloadResponse);
+}
+
+message FileRequest {
+    string peer_name = 1;
+    string file_name = 2;
+}
+
+message DownloadResponse {
+    string message = 1;
+}
