@@ -54,15 +54,17 @@ HTTP y gRCP
 Para la compilación, es necesario primero hacer un docker build de los 3 archivos "Dockerfile", para ello, ejecutamos los siguientes comandos respectivamente,
 
     docker build -t main-server
-    docker build -t peer-client
+	docker run -p hostPort:dockerPort main-server
+  Una vez hecho esto, en la ejecución saldrá una IP en la cual el servidor está corriendo, es necesario anotarla ya que se necesitará para terminar de configurar el cliente
+  
     docker build -t peer-server
-  
-  Con esto, podemos ejecutar los contenedores, así:
-  
-
-    docker run -p hostPort:dockerPort main-server
-    docker run -ti peer-client
     docker run -p hostPort:dockerPort peer-server
+Una vez hecho esto, en la ejecución saldrá una IP en la cual el PServer está corriendo, es necesario anotarla ya que se necesitará para terminar de configurar el cliente.
+
+  Luego, cambiaremos las IP con sus puertos respectivos dentro de peer/p_client/config.ini. Y por último, haremos build del docker peer-client y run para ejecutarlo
+
+    docker build -t peer-client
+    docker run -ti peer-client
 
 Donde la flag -p nos ayuda a hacer un port mapping de los puertos especificados, y la flag -ti le indica al contenedor que el programa recibirá input por la terminal, ya que el cliente está basado en CLI.
 ### Nota adicional
@@ -136,7 +138,12 @@ Para empezar, clonar el repositorio INSERTE URL DE GITHUB, luego, hacer los paso
 Cada opción dentro del menú, indica un microservicio expuesto por el servidor. Cabe aclarar que para hacer logout, index y/o get, se necesita primero haberse logeado con el servidor, de lo contrario, no se podrá acceder a los microservicios especificados.
 
 # Referencias:
-<debemos siempre reconocer los créditos de partes del código que reutilizaremos, así como referencias a youtube, o referencias bibliográficas utilizadas para desarrollar el proyecto o la actividad>
-## sitio1-url 
-## sitio2-url
-## url de donde tomo info para desarrollar este proyecto
+
+- gRCP (https://grpc.io/) 
+- Repo del curso (https://github.com/st0263eafit/st0263-241/tree/main)
+- requests (https://requests.readthedocs.io/en/latest/)
+- concurrent.futures (https://docs.python.org/3/library/concurrent.futures.html)
+- configparser (https://docs.python.org/3/library/configparser.html)
+- socket (https://docs.python.org/3/library/socket.html)
+- Docker (https://docs.docker.com/)
+- protobuf (https://protobuf.dev/overview/)
