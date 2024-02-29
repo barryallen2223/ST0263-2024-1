@@ -4,8 +4,6 @@
 
 # Profesor: Alvaro Enrique Ospina Sanjuan, aospinas@eafit.brightspace.com
 
-# <para borrar: renombre este archivo a README.md cuando lo vaya a usar en un caso específico>
-
 # Reto No 1 y 2: P2P - Comunicación entre procesos mediante API REST y RPC
 
 # 1. Descripción de la actividad
