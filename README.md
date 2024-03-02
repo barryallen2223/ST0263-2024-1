@@ -4,7 +4,11 @@
 
 # Profesor: Alvaro Enrique Ospina Sanjuan, aospinas@eafit.brightspace.com
 
+<<<<<<< HEAD
 # Reto No 1 y 2: P2P - Comunicación entre procesos mediante API REST y gRPC
+=======
+# Reto No 1 y 2: P2P - Comunicación entre procesos mediante API REST y RPC
+>>>>>>> d2696e3b6aba4ae337ba17356dc50fc6e6ccbf0c
 
 # 1. Descripción de la actividad
 Implementación de un sistema P2P con arquitectura de microservicios, usando tanto REST API como gRPC para la comunicación entre los clientes y los servidores, y entre los peer. La arquitectura de microservicios está estructurada de manera modular con funciones específicas para correr endpoints únicos, haciendo así que los microservicios estén encapsulados. Adicionalmente, la comunicación peer-to-peer es facilitada gracias a que usa gRPC entre los peers, para permitir la transferencia dummy de archivos.
@@ -51,17 +55,29 @@ HTTP y gRCP
 ## Compilación y ejecución
 Para la compilación, es necesario primero hacer un docker build de los 3 archivos "Dockerfile", para ello, ejecutamos los siguientes comandos respectivamente,
 
+<<<<<<< HEAD
     docker build -t main-server .
 	docker run -p hostPort:dockerPort main-server
   Una vez hecho esto, en la ejecución saldrá una IP en la cual el servidor está corriendo, es necesario anotarla ya que se necesitará para terminar de configurar el cliente
   
     docker build -t peer-server .
+=======
+    docker build -t main-server
+	docker run -p hostPort:dockerPort main-server
+  Una vez hecho esto, en la ejecución saldrá una IP en la cual el servidor está corriendo, es necesario anotarla ya que se necesitará para terminar de configurar el cliente
+  
+    docker build -t peer-server
+>>>>>>> d2696e3b6aba4ae337ba17356dc50fc6e6ccbf0c
     docker run -p hostPort:dockerPort peer-server
 Una vez hecho esto, en la ejecución saldrá una IP en la cual el PServer está corriendo, es necesario anotarla ya que se necesitará para terminar de configurar el cliente.
 
   Luego, cambiaremos las IP con sus puertos respectivos dentro de peer/p_client/config.ini. Y por último, haremos build del docker peer-client y run para ejecutarlo
 
+<<<<<<< HEAD
     docker build -t peer-client .
+=======
+    docker build -t peer-client
+>>>>>>> d2696e3b6aba4ae337ba17356dc50fc6e6ccbf0c
     docker run -ti peer-client
 
 Donde la flag -p nos ayuda a hacer un port mapping de los puertos especificados, y la flag -ti le indica al contenedor que el programa recibirá input por la terminal, ya que el cliente está basado en CLI.
@@ -135,6 +151,10 @@ Para empezar, clonar el repositorio (https://github.com/barryallen2223/ST0263-20
 Cada opción dentro del menú, indica un microservicio expuesto por el servidor. Cabe aclarar que para hacer logout, index y/o get, se necesita primero haberse logeado con el servidor, de lo contrario, no se podrá acceder a los microservicios especificados.
 
 # Referencias:
+<<<<<<< HEAD
+=======
+
+>>>>>>> d2696e3b6aba4ae337ba17356dc50fc6e6ccbf0c
 - gRCP (https://grpc.io/) 
 - Repo del curso (https://github.com/st0263eafit/st0263-241/tree/main)
 - requests (https://requests.readthedocs.io/en/latest/)
