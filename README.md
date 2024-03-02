@@ -4,9 +4,7 @@
 
 # Profesor: Alvaro Enrique Ospina Sanjuan, aospinas@eafit.brightspace.com
 
-# <para borrar: renombre este archivo a README.md cuando lo vaya a usar en un caso específico>
-
-# Reto No 1 y 2: P2P - Comunicación entre procesos mediante API REST y RPC
+# Reto No 1 y 2: P2P - Comunicación entre procesos mediante API REST y gRPC
 
 # 1. Descripción de la actividad
 Implementación de un sistema P2P con arquitectura de microservicios, usando tanto REST API como gRPC para la comunicación entre los clientes y los servidores, y entre los peer. La arquitectura de microservicios está estructurada de manera modular con funciones específicas para correr endpoints únicos, haciendo así que los microservicios estén encapsulados. Adicionalmente, la comunicación peer-to-peer es facilitada gracias a que usa gRPC entre los peers, para permitir la transferencia dummy de archivos.
@@ -23,7 +21,7 @@ Para los requerimientos funcionales y no funcionales definidos explícitamente d
  - **Diseño de alto nivel:** El sistema se adhiere a una arquitectura cliente-servidor, en la cual el servidor desempeña el papel de un componente centralizado encargado de gestionar las interacciones entre los clientes y los pares. Los pares se comunican entre sí a través de un modelo de comunicación entre peers (P2P) facilitado por gRPC.
  - **Arquitectura:**
 	 - **Arquitectura cliente-servidor:** Los clientes interactúan con el servidor a través de las API RESTful, las cuales se encargan de gestionar diversas operaciones como el inicio de sesión, cierre de sesión, indexación y recuperación de archivos. Por su parte, el servidor mantiene una lista de peers registrados y se encarga de administrar las solicitudes de indexación y recuperación de archivos provenientes de los clientes. 
-	 - **Comunicación entre pares:** Los peers establecen comunicación entre sí mediante gRPC, lo cual permite una comunicación eficiente y asíncrona para la transferencia de archivos. Cada peer aloja un servicio que se encarga de escuchar las solicitudes de descarga provenientes de otros peer y responde en consecuencia.
+	 - **Comunicación entre peers:** Los peers establecen comunicación entre sí mediante gRPC, lo cual permite una comunicación eficiente y asíncrona para la transferencia de archivos. Cada peer aloja un servicio que se encarga de escuchar las solicitudes de descarga provenientes de otros peer y responde en consecuencia.
  - **Patrones de diseño:** 
 	 - **Modelo-Vista-Controlador (MVC):** Flask sigue el patrón MVC, en el cual los modelos representan las estructuras de datos, las vistas muestran los datos al usuario y los controladores gestionan la entrada del usuario y orquestan las interacciones. 
 	 - **Patrón cliente-servidor:** El patrón cliente-servidor se utiliza para las interacciones cliente-servidor, donde los clientes (peers) realizan solicitudes al servidor para llevar a cabo diversas operaciones. 
@@ -53,16 +51,18 @@ HTTP y gRCP
 ## Compilación y ejecución
 Para la compilación, es necesario primero hacer un docker build de los 3 archivos "Dockerfile", para ello, ejecutamos los siguientes comandos respectivamente,
 
-    docker build -t main-server
-    docker build -t peer-client
-    docker build -t peer-server
+    docker build -t main-server .
+	docker run -p hostPort:dockerPort main-server
+  Una vez hecho esto, en la ejecución saldrá una IP en la cual el servidor está corriendo, es necesario anotarla ya que se necesitará para terminar de configurar el cliente
   
-  Con esto, podemos ejecutar los contenedores, así:
-  
-
-    docker run -p hostPort:dockerPort main-server
-    docker run -ti peer-client
+    docker build -t peer-server .
     docker run -p hostPort:dockerPort peer-server
+Una vez hecho esto, en la ejecución saldrá una IP en la cual el PServer está corriendo, es necesario anotarla ya que se necesitará para terminar de configurar el cliente.
+
+  Luego, cambiaremos las IP con sus puertos respectivos dentro de peer/p_client/config.ini. Y por último, haremos build del docker peer-client y run para ejecutarlo
+
+    docker build -t peer-client .
+    docker run -ti peer-client
 
 Donde la flag -p nos ayuda a hacer un port mapping de los puertos especificados, y la flag -ti le indica al contenedor que el programa recibirá input por la terminal, ya que el cliente está basado en CLI.
 ### Nota adicional
@@ -70,7 +70,6 @@ En caso tal de que el programa encuentre errores a la hora de ejecutar las libre
 
     python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. peer_service.proto
 Con este podremos generar las librerías necesarias para ejecutar el código con gRCP.
-    
 
 ## Configuración parámetros
 La configuración tanto del servidor, como del cliente se hace a través de unos archivos .ini, los cuales contienen la siguiente información
@@ -125,7 +124,7 @@ La comunicación entre los peers se lleva a cabo utilizando gRPC, donde cada pee
 	        peer_service_pb2.cpython-311.pyc
 
 ## Guía rápida de cómo usar la aplicación
-Para empezar, clonar el repositorio INSERTE URL DE GITHUB, luego, hacer los pasos especificados en el punto 3 para hacer el docker build, la generación de los archivos relevantes para gRCP y hacer docker run, habiendo configurado previamente el archivo .ini del servidor y del cliente con sus respectivos datos. Luego de eso, podremos lanzar una instancia cliente, la cual nos saldrá con un menú de 5 opciones
+Para empezar, clonar el repositorio (https://github.com/barryallen2223/ST0263-2024-1), luego, hacer los pasos especificados en el punto 3 para hacer el docker build, la generación de los archivos relevantes para gRCP y hacer docker run, habiendo configurado previamente el archivo .ini del servidor y del cliente con sus respectivos datos. Luego de eso, podremos lanzar una instancia cliente, la cual nos saldrá con un menú de 5 opciones
 
     1. Login
 	2. Logout
@@ -136,7 +135,11 @@ Para empezar, clonar el repositorio INSERTE URL DE GITHUB, luego, hacer los paso
 Cada opción dentro del menú, indica un microservicio expuesto por el servidor. Cabe aclarar que para hacer logout, index y/o get, se necesita primero haberse logeado con el servidor, de lo contrario, no se podrá acceder a los microservicios especificados.
 
 # Referencias:
-<debemos siempre reconocer los créditos de partes del código que reutilizaremos, así como referencias a youtube, o referencias bibliográficas utilizadas para desarrollar el proyecto o la actividad>
-## sitio1-url 
-## sitio2-url
-## url de donde tomo info para desarrollar este proyecto
+- gRCP (https://grpc.io/) 
+- Repo del curso (https://github.com/st0263eafit/st0263-241/tree/main)
+- requests (https://requests.readthedocs.io/en/latest/)
+- concurrent.futures (https://docs.python.org/3/library/concurrent.futures.html)
+- configparser (https://docs.python.org/3/library/configparser.html)
+- socket (https://docs.python.org/3/library/socket.html)
+- Docker (https://docs.docker.com/)
+- protobuf (https://protobuf.dev/overview/)
